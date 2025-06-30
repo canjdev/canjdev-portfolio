@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { projectsData } from "../../../lib/data";
+import { projectsData } from "@/lib/data";
 
 const ProjectsSection = () => {
   const [isVisible, setIsVisible] = useState(false);

@@ -56,14 +56,16 @@ const AboutSection = () => {
             What I do
           </h2>
 
-          <div className="grid md:grid-cols-2 gap-16 items-start">
-            <div className="space-y-12">
+          <div className="grid md:grid-cols-2 gap-16 items-stretch">
+            <div className="space-y-8">
               {/* DEVELOP Section */}
               <div
-                className={`${isVisible ? "slide-up" : ""}`}
+                className={`sleek-frame rounded-2xl p-8 ${
+                  isVisible ? "slide-in-left" : ""
+                }`}
                 style={{ animationDelay: "200ms" }}
               >
-                <h3 className="text-2xl font-bold mb-4 tracking-wider">
+                <h3 className="text-2xl font-bold mb-4 tracking-wider text-blue-400">
                   DEVELOP
                 </h3>
                 <p className="text-gray-300 mb-6 leading-relaxed">
@@ -77,7 +79,7 @@ const AboutSection = () => {
                     <span
                       key={index}
                       className="px-3 py-1 bg-gray-800 text-gray-300 text-sm rounded-full border border-gray-700 
-                               hover:bg-gray-700 hover:border-gray-600 transition-all duration-200"
+                               hover:bg-gray-700 hover:border-blue-400 hover:text-blue-400 transition-all duration-300"
                     >
                       {skill}
                     </span>
@@ -87,10 +89,12 @@ const AboutSection = () => {
 
               {/* CREATE Section */}
               <div
-                className={`${isVisible ? "slide-up" : ""}`}
+                className={`sleek-frame rounded-2xl p-8 ${
+                  isVisible ? "slide-in-left" : ""
+                }`}
                 style={{ animationDelay: "400ms" }}
               >
-                <h3 className="text-2xl font-bold mb-4 tracking-wider">
+                <h3 className="text-2xl font-bold mb-4 tracking-wider text-blue-400">
                   CREATE
                 </h3>
                 <p className="text-gray-300 mb-6 leading-relaxed">
@@ -104,7 +108,7 @@ const AboutSection = () => {
                     <span
                       key={index}
                       className="px-3 py-1 bg-gray-800 text-gray-300 text-sm rounded-full border border-gray-700 
-                               hover:bg-gray-700 hover:border-gray-600 transition-all duration-200"
+                               hover:bg-gray-700 hover:border-blue-400 hover:text-blue-400 transition-all duration-300"
                     >
                       {skill}
                     </span>
@@ -113,18 +117,18 @@ const AboutSection = () => {
               </div>
             </div>
 
-            <div className="flex justify-center">
+            <div className="flex items-stretch">
               <div
-                className={`relative ${isVisible ? "fade-in" : "opacity-0"}`}
+                className={`image-container rounded-2xl overflow-hidden w-full ${
+                  isVisible ? "slide-in-right" : "opacity-0"
+                }`}
                 style={{ animationDelay: "600ms" }}
               >
-                <div className="w-80 h-96 bg-gray-800 rounded-lg overflow-hidden">
-                  <img
-                    src="/placeholder.svg?height=400&width=320"
-                    alt="Christian Angelo N. Juan"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
+                <img
+                  src="/canj_pic.svg"
+                  alt="Christian Angelo N. Juan"
+                  className="w-full h-full object-cover"
+                />
               </div>
             </div>
           </div>

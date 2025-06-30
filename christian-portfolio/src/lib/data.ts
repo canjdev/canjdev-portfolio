@@ -1,36 +1,3 @@
-export const skillsData = [
-  {
-    category: "Front-end Development",
-    description: "React.js, JavaScript, CSS, TypeScript, Next.js, Tailwind CSS",
-  },
-  {
-    category: "Python Programming",
-    description: "Backend development, API integration, data processing",
-  },
-  {
-    category: "API Integration",
-    description: "Axios, RESTful APIs, backend connectivity",
-  },
-  {
-    category: "Data Management",
-    description: "Data encoding, database management, record organization",
-  },
-  {
-    category: "Development Tools",
-    description:
-      "Git, GitLab, Docker, Postman, Jira Software, VS Code, PyCharm",
-  },
-  {
-    category: "Agile Development",
-    description:
-      "Scrum methodologies, team collaboration, project lifecycle management",
-  },
-  {
-    category: "Professional Support",
-    description: "Chat support, customer service, client satisfaction",
-  },
-];
-
 export const experienceData = [
   {
     title: "On-the-Job Trainee (Software Development)",
