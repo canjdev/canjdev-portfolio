@@ -58,7 +58,7 @@ const ExperienceSection = () => {
           }`}
         >
           <h2 className="text-4xl md:text-5xl font-bold text-center mb-16">
-            My Experience
+            My Experience and Credentials
           </h2>
 
           <div className="relative">
@@ -87,7 +87,7 @@ const ExperienceSection = () => {
                   }`}
                   style={{ animationDelay: `${index * 200}ms` }}
                 >
-                  {/* Timeline Dot */}
+                  {/* Timeline Dot
                   <div
                     className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-cyan-400 rounded-full z-20"
                     style={{
@@ -97,7 +97,7 @@ const ExperienceSection = () => {
                         inset 0 0 5px rgba(255, 255, 255, 0.3)
                       `,
                     }}
-                  ></div>
+                  ></div> */}
 
                   {/* Job Title Side */}
                   <div

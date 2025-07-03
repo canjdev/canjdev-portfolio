@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Mail, Phone, Github, Linkedin, MapPin } from "lucide-react";
+import Particles from "../../utils/Particles";
 
 const ContactSection = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -56,8 +57,28 @@ const ContactSection = () => {
   ];
 
   return (
-    <section id="contact" className="section-container">
-      <div className="max-w-4xl mx-auto">
+    <section
+      id="contact"
+      className="section-container relative overflow-hidden"
+    >
+      {/* Particles Background */}
+      <div className="absolute inset-0 w-full h-full">
+        <Particles
+          particleColors={["#ffffff", "#ffffff"]}
+          particleCount={200}
+          particleSpread={12}
+          speed={0.1}
+          particleBaseSize={100}
+          moveParticlesOnHover={true}
+          alphaParticles={false}
+          disableRotation={false}
+          particleHoverFactor={0.5}
+          className="opacity-70"
+        />
+      </div>
+
+      {/* Content */}
+      <div className="max-w-4xl mx-auto relative z-10">
         <div
           className={`transition-all duration-1000 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
