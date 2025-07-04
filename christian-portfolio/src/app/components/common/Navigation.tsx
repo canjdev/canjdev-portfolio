@@ -2,16 +2,16 @@
 
 import { useState, useEffect } from "react";
 
+const navItems = [
+  { id: "home", label: "Home" },
+  { id: "about", label: "What I Do" },
+  { id: "experience", label: "Experience" },
+  { id: "projects", label: "Projects" },
+  { id: "contact", label: "Contact" },
+];
+
 const Navigation = () => {
   const [activeSection, setActiveSection] = useState("home");
-
-  const navItems = [
-    { id: "home", label: "Home" },
-    { id: "about", label: "What I Do" },
-    { id: "experience", label: "Experience" },
-    { id: "projects", label: "Projects" },
-    { id: "contact", label: "Contact" },
-  ];
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
@@ -42,7 +42,7 @@ const Navigation = () => {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, []); // Now we can safely use an empty dependency array
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-black/90 backdrop-blur-sm border-b border-gray-800">

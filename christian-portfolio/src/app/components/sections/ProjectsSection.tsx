@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { projectsData } from "@/lib/data";
 
 const ProjectsSection = () => {
@@ -48,10 +49,12 @@ const ProjectsSection = () => {
               >
                 {/* Project Thumbnail */}
                 <div className="relative overflow-hidden rounded-lg bg-gray-800 aspect-video">
-                  <img
+                  <Image
                     src={`/${project.title}.svg`}
                     alt={project.title}
-                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                    fill
+                    className="object-cover transition-transform duration-300 group-hover:scale-110"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
 
                   {/* Overlay */}

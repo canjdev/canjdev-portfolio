@@ -159,7 +159,6 @@ const TrueFocusNavigation = ({
   scrollToSection: (id: string) => void;
 }) => {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
-  const [lastActiveIndex, setLastActiveIndex] = useState<number | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const wordRefs = useRef<(HTMLSpanElement | null)[]>([]);
   const [focusRect, setFocusRect] = useState<{
@@ -205,7 +204,6 @@ const TrueFocusNavigation = ({
   };
 
   const handleMouseEnter = (index: number) => {
-    setLastActiveIndex(currentIndex);
     setCurrentIndex(index);
   };
 

@@ -31,7 +31,9 @@ const TrueFocus: React.FC<TrueFocusProps> = ({
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [lastActiveIndex, setLastActiveIndex] = useState<number | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const wordRefs = useRef<(HTMLSpanElement | null)[]>([]);
+  const wordRefs = useRef<(HTMLSpanElement | null)[]>(
+    Array(words.length).fill(null)
+  );
   const [focusRect, setFocusRect] = useState<FocusRect>({
     x: 0,
     y: 0,
@@ -87,7 +89,9 @@ const TrueFocus: React.FC<TrueFocusProps> = ({
         return (
           <span
             key={index}
-            ref={(el) => (wordRefs.current[index] = el)}
+            ref={(el) => {
+              wordRefs.current[index] = el;
+            }}
             className="relative text-[3rem] font-black cursor-pointer"
             style={
               {
