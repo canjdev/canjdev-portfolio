@@ -49,7 +49,7 @@ const ProjectsSection = () => {
                 {/* Project Thumbnail */}
                 <div className="relative overflow-hidden rounded-lg bg-gray-800 aspect-video">
                   <img
-                    src={`/placeholder.svg?height=300&width=500&text=${project.title}`}
+                    src={`/${project.title}.svg`}
                     alt={project.title}
                     className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                   />

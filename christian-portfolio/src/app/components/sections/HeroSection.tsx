@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import BlurText from "../../utils/BlurText";
 import SplitText from "../../utils/SplitText";
 import Threads from "../../utils/Threads";
+import ShinyText from "../../utils/ShinyText";
 
 const HeroSection = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -23,17 +24,11 @@ const HeroSection = () => {
   };
 
   const downloadResume = () => {
-    const link = document.createElement("a");
-    link.href = "/Christian_Angelo_Juan_Resume.pdf";
-    link.download = "Christian_Angelo_Juan_Resume.pdf";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    window.open("https://limewire.com/d/4xae4#GDBoGOBOvG", "_blank");
   };
 
   const handleNameAnimationComplete = () => {
     console.log("Name animation completed!");
-    // Trigger the "Ready to work" animation after name animation completes
     setTimeout(() => {
       setShowReadyToWork(true);
     }, 500);
@@ -47,15 +42,9 @@ const HeroSection = () => {
     <section id="home" className="section-container relative overflow-hidden">
       {/* Custom CSS for green checkmark */}
       <style jsx>{`
-        .ready-to-work-text :global(.split-parent) {
-          position: relative;
-        }
-        .ready-to-work-text :global(.split-parent)::after {
-          content: "✓";
-          color: #10b981;
-          font-weight: bold;
-          margin-left: 0.25rem;
-          display: inline-block;
+        .ready-to-work-text .split-parent > *:last-child {
+          color: #10b981 !important;
+          font-weight: bold !important;
         }
       `}</style>
 
@@ -78,11 +67,15 @@ const HeroSection = () => {
         >
           <div className="relative mb-6">
             {/* Ready to Work Status - Top Left */}
-            <div className="absolute -top-8 left-0 md:-top-12 md:-left-8 z-20 ready-to-work-text">
-              {showReadyToWork && (
+            <div className="absolute -top-8 left-0 md:-top-12 md:-left-8 z-20">
+              <div
+                className={`transition-opacity duration-300 ${
+                  showReadyToWork ? "opacity-100" : "opacity-0"
+                }`}
+              >
                 <SplitText
-                  text="Ready to work"
-                  className="text-sm md:text-base font-semibold text-white inline-flex items-center gap-1"
+                  text="Ready to work ✓"
+                  className="text-sm md:text-base font-semibold text-white ready-to-work-text"
                   delay={80}
                   duration={1.5}
                   ease="power3.out"
@@ -92,9 +85,10 @@ const HeroSection = () => {
                   threshold={0.1}
                   rootMargin="-50px"
                   textAlign="left"
+                  startAnimation={showReadyToWork}
                   onLetterAnimationComplete={handleReadyToWorkComplete}
                 />
-              )}
+              </div>
             </div>
 
             <BlurText
@@ -127,9 +121,12 @@ const HeroSection = () => {
           <div className="mb-8">
             <button
               onClick={downloadResume}
-              className={`inline-flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 
-                        text-white font-medium py-3 px-6 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-lg
-                        backdrop-blur-sm relative z-10
+              className={`group relative inline-flex items-center gap-3 bg-gradient-to-r from-slate-900 to-slate-800 hover:from-slate-800 hover:to-slate-700 
+                        border border-slate-600 hover:border-slate-500 font-medium py-4 px-8 rounded-xl 
+                        transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-cyan-500/25
+                        backdrop-blur-sm relative z-10 overflow-hidden
+                        before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent before:via-white/10 before:to-transparent
+                        before:translate-x-[-100%] before:transition-transform before:duration-700 hover:before:translate-x-[100%]
                         ${
                           isVisible
                             ? "opacity-100 translate-y-0"
@@ -137,8 +134,13 @@ const HeroSection = () => {
                         }`}
               style={{ transitionDelay: "500ms" }}
             >
-              <Download className="w-5 h-5" />
-              Download Resume
+              <Download className="w-5 h-5 text-cyan-400 transition-colors duration-300 group-hover:text-cyan-300" />
+              <ShinyText
+                text="Download Resume"
+                disabled={false}
+                speed={3}
+                className="text-base font-semibold text-white group-hover:text-cyan-100 transition-colors duration-300"
+              />
             </button>
           </div>
         </div>

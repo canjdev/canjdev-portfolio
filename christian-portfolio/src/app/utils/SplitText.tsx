@@ -18,6 +18,7 @@ export interface SplitTextProps {
   rootMargin?: string;
   textAlign?: React.CSSProperties["textAlign"];
   onLetterAnimationComplete?: () => void;
+  startAnimation?: boolean;
 }
 
 const SplitText: React.FC<SplitTextProps> = ({
@@ -33,6 +34,7 @@ const SplitText: React.FC<SplitTextProps> = ({
   rootMargin = "-100px",
   textAlign = "center",
   onLetterAnimationComplete,
+  startAnimation = true,
 }) => {
   const ref = useRef<HTMLParagraphElement>(null);
   const animationCompletedRef = useRef(false);
@@ -69,46 +71,91 @@ const SplitText: React.FC<SplitTextProps> = ({
       (t as HTMLElement).style.willChange = "transform, opacity";
     });
 
-    const startPct = (1 - threshold) * 100;
-    const m = /^(-?\d+)px$/.exec(rootMargin);
-    const raw = m ? parseInt(m[1], 10) : 0;
-    const sign = raw < 0 ? `-=${Math.abs(raw)}px` : `+=${raw}px`;
-    const start = `top ${startPct}%${sign}`;
+    // Set initial styles immediately to prevent flash
+    gsap.set(targets, { ...from, immediateRender: true, force3D: true });
 
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: el,
-        start,
-        toggleActions: "play none none none",
-        once: true,
-      },
-      smoothChildTiming: true,
-      onComplete: () => {
-        animationCompletedRef.current = true;
-        gsap.set(targets, {
-          ...to,
-          clearProps: "willChange",
-          immediateRender: true,
-        });
-        onLetterAnimationComplete?.();
-      },
-    });
+    // Only start animation if startAnimation is true
+    if (!startAnimation) {
+      return () => {
+        gsap.killTweensOf(targets);
+        splitter.revert();
+      };
+    }
 
-    tl.set(targets, { ...from, immediateRender: false, force3D: true });
-    tl.to(targets, {
-      ...to,
-      duration,
-      ease,
-      stagger: delay / 1000,
-      force3D: true,
-    });
+    // Check if element is already in viewport (for landing page elements)
+    const rect = el.getBoundingClientRect();
+    const isInViewport = rect.top < window.innerHeight && rect.bottom > 0;
 
-    return () => {
-      tl.kill();
-      ScrollTrigger.getAll().forEach((t) => t.kill());
-      gsap.killTweensOf(targets);
-      splitter.revert();
-    };
+    if (isInViewport) {
+      // Element is already visible, animate immediately
+      const tl = gsap.timeline({
+        smoothChildTiming: true,
+        onComplete: () => {
+          animationCompletedRef.current = true;
+          gsap.set(targets, {
+            ...to,
+            clearProps: "willChange",
+            immediateRender: true,
+          });
+          onLetterAnimationComplete?.();
+        },
+      });
+
+      tl.to(targets, {
+        ...to,
+        duration,
+        ease,
+        stagger: delay / 1000,
+        force3D: true,
+      });
+
+      return () => {
+        tl.kill();
+        gsap.killTweensOf(targets);
+        splitter.revert();
+      };
+    } else {
+      // Element is not visible, use ScrollTrigger
+      const startPct = (1 - threshold) * 100;
+      const m = /^(-?\d+)px$/.exec(rootMargin);
+      const raw = m ? parseInt(m[1], 10) : 0;
+      const sign = raw < 0 ? `-=${Math.abs(raw)}px` : `+=${raw}px`;
+      const start = `top ${startPct}%${sign}`;
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: el,
+          start,
+          toggleActions: "play none none none",
+          once: true,
+        },
+        smoothChildTiming: true,
+        onComplete: () => {
+          animationCompletedRef.current = true;
+          gsap.set(targets, {
+            ...to,
+            clearProps: "willChange",
+            immediateRender: true,
+          });
+          onLetterAnimationComplete?.();
+        },
+      });
+
+      tl.to(targets, {
+        ...to,
+        duration,
+        ease,
+        stagger: delay / 1000,
+        force3D: true,
+      });
+
+      return () => {
+        tl.kill();
+        ScrollTrigger.getAll().forEach((t) => t.kill());
+        gsap.killTweensOf(targets);
+        splitter.revert();
+      };
+    }
   }, [
     text,
     delay,
@@ -120,6 +167,7 @@ const SplitText: React.FC<SplitTextProps> = ({
     threshold,
     rootMargin,
     onLetterAnimationComplete,
+    startAnimation,
   ]);
 
   return (

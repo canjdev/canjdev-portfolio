@@ -102,6 +102,10 @@ module.exports = {
             boxShadow: "0 0 8px #3b82f6, 0 0 16px #3b82f6",
           },
         },
+        shine: {
+          "0%": { "background-position": "100%" },
+          "100%": { "background-position": "-100%" },
+        },
       },
       animation: {
         "fade-in": "fadeIn 0.8s ease-in-out",
@@ -110,6 +114,7 @@ module.exports = {
         "name-glow": "nameGlow 3s ease-in-out infinite alternate",
         "pulse-glow": "pulseGlow 2s ease-in-out infinite alternate",
         "dot-pulse": "dotPulse 1.5s ease-in-out infinite alternate",
+        shine: "shine 5s linear infinite",
       },
     },
   },
