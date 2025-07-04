@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import TiltedCard from "../../utils/TitledCard";
 import SpotlightCard from "../../utils/SpotlightCard";
+import CircularGallery from "../../utils/CircularGallery";
 
 const AboutSection = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -44,6 +45,21 @@ const AboutSection = () => {
     "Database Design",
     "System Architecture",
     "Problem Solving",
+  ];
+
+  // Define the gallery items with your SVG icons
+  const galleryItems = [
+    { image: "/react-icon.svg", text: "React" },
+    { image: "/javascript-icon.svg", text: "JavaScript" },
+    { image: "/typescript-icon.svg", text: "TypeScript" },
+    { image: "/nextjs-icon.svg", text: "Next.js" },
+    { image: "/css-icon.svg", text: "CSS" },
+    { image: "/html-icon.svg", text: "HTML" },
+    { image: "/python-icon.svg", text: "Python" },
+    { image: "/git-icon.svg", text: "Git" },
+    { image: "/docker-icon.svg", text: "Docker" },
+    { image: "/figma-icon.svg", text: "Figma" },
+    { image: "/tailwind-icon.svg", text: "Tailwind CSS" },
   ];
 
   return (
@@ -145,6 +161,27 @@ const AboutSection = () => {
                   showMobileWarning={false}
                   showTooltip={true}
                   displayOverlayContent={false}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Technology Gallery Section */}
+          <div className="mt-24">
+            <h3 className="text-3xl md:text-4xl font-bold text-center mb-12 text-slate-100">
+              Technologies
+            </h3>
+            <div
+              className={`${isVisible ? "slide-in-up" : "opacity-0"}`}
+              style={{ animationDelay: "800ms" }}
+            >
+              <div style={{ height: "600px", position: "relative" }}>
+                <CircularGallery
+                  items={galleryItems}
+                  bend={1}
+                  textColor="#ffffff"
+                  borderRadius={0.05}
+                  scrollEase={0.02}
                 />
               </div>
             </div>
