@@ -3,6 +3,30 @@
 import { useEffect, useState } from "react";
 import { experienceData } from "@/lib/data";
 
+// Define proper types for the data
+interface BaseItem {
+  title: string;
+  period: string;
+  description?: string[];
+}
+
+interface WorkExperience extends BaseItem {
+  company: string;
+  type: "experience";
+}
+
+interface EducationItem extends BaseItem {
+  institution: string;
+  type: "education";
+}
+
+interface CertificationItem extends BaseItem {
+  institution: string;
+  type: "certification";
+}
+
+type ExperienceItem = WorkExperience | EducationItem | CertificationItem;
+
 const ExperienceSection = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -49,6 +73,66 @@ const ExperienceSection = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Separate work experience from education and certifications
+  const workExperience: WorkExperience[] = experienceData
+    .filter(
+      (item) => item.company === "LegionTech Inc." || item.company === "Fify410"
+    )
+    .map((item) => ({
+      ...item,
+      type: "experience" as const,
+    }));
+
+  const educationData: (EducationItem | CertificationItem)[] = [
+    {
+      title: "Bachelor of Science in Information Technology",
+      institution: "STI College Calamba",
+      period: "2020-Present",
+      type: "education" as const,
+      description: [
+        "Currently pursuing BSIT degree with focus on software development",
+        "Gained comprehensive knowledge in programming, database management, and system analysis",
+      ],
+    },
+    {
+      title: "ISO/IEC 27001:2022 Information Security Associate™",
+      institution: "SkillFront",
+      period: "2025",
+      type: "certification" as const,
+    },
+    {
+      title: "SAP Business One (Advanced)",
+      institution: "Implementation and Support",
+      period: "2023",
+      type: "certification" as const,
+      description: [
+        "Advanced certification in SAP Business One implementation",
+        "Expertise in business process optimization and system support",
+      ],
+    },
+    {
+      title: "SAP Business One (Basic)",
+      institution: "Financials and Logistics",
+      period: "2022",
+      type: "certification" as const,
+      description: [
+        "Foundation certification in SAP Business One",
+        "Knowledge in financial and logistics modules",
+      ],
+    },
+  ];
+
+  const allItems: ExperienceItem[] = [...workExperience, ...educationData];
+
+  // Helper function to get the organization name
+  const getOrganizationName = (item: ExperienceItem): string => {
+    if (item.type === "experience") {
+      return item.company;
+    } else {
+      return item.institution;
+    }
+  };
+
   return (
     <section id="experience" className="section-container">
       <div className="max-w-6xl mx-auto">
@@ -79,7 +163,7 @@ const ExperienceSection = () => {
             </div>
 
             <div className="space-y-20 relative z-10">
-              {experienceData.map((item, index) => (
+              {allItems.map((item, index) => (
                 <div
                   key={index}
                   className={`relative grid grid-cols-1 md:grid-cols-2 gap-8 items-center ${
@@ -87,19 +171,7 @@ const ExperienceSection = () => {
                   }`}
                   style={{ animationDelay: `${index * 200}ms` }}
                 >
-                  {/* Timeline Dot
-                  <div
-                    className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-cyan-400 rounded-full z-20"
-                    style={{
-                      boxShadow: `
-                        0 0 10px #06b6d4,
-                        0 0 20px #06b6d4,
-                        inset 0 0 5px rgba(255, 255, 255, 0.3)
-                      `,
-                    }}
-                  ></div> */}
-
-                  {/* Job Title Side */}
+                  {/* Title Side */}
                   <div
                     className={`${
                       index % 2 === 0
@@ -112,9 +184,28 @@ const ExperienceSection = () => {
                         {item.title}
                       </h3>
                       <div className="text-cyan-400 font-medium mb-2">
-                        {item.company}
+                        {getOrganizationName(item)}
                       </div>
                       <div className="text-gray-400 text-sm">{item.period}</div>
+                      {item.type && (
+                        <div className="mt-2">
+                          <span
+                            className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${
+                              item.type === "education"
+                                ? "bg-green-500/20 text-green-400 border border-green-500/30"
+                                : item.type === "certification"
+                                ? "bg-purple-500/20 text-purple-400 border border-purple-500/30"
+                                : "bg-blue-500/20 text-blue-400 border border-blue-500/30"
+                            }`}
+                          >
+                            {item.type === "education"
+                              ? "Education"
+                              : item.type === "certification"
+                              ? "Certification"
+                              : "Work Experience"}
+                          </span>
+                        </div>
+                      )}
                     </div>
                   </div>
 
@@ -127,18 +218,30 @@ const ExperienceSection = () => {
                     } text-center md:text-inherit`}
                   >
                     <div className="sleek-frame rounded-xl p-6 hover:scale-105 transition-all duration-300 group">
-                      <ul className="text-gray-300 text-sm space-y-3">
-                        {item.description.map((desc, i) => (
-                          <li key={i} className="flex items-start">
-                            <span className="text-cyan-400 mr-2 flex-shrink-0 mt-1">
-                              •
-                            </span>
-                            <span className="group-hover:text-gray-200 transition-colors">
-                              {desc}
-                            </span>
-                          </li>
-                        ))}
-                      </ul>
+                      {item.description ? (
+                        <ul className="text-gray-300 text-sm space-y-3">
+                          {item.description.map((desc, i) => (
+                            <li key={i} className="flex items-start">
+                              <span className="text-cyan-400 mr-2 flex-shrink-0 mt-1">
+                                •
+                              </span>
+                              <span className="group-hover:text-gray-200 transition-colors">
+                                {desc}
+                              </span>
+                            </li>
+                          ))}
+                        </ul>
+                      ) : (
+                        <div className="text-gray-300 text-sm">
+                          <p className="group-hover:text-gray-200 transition-colors">
+                            {item.type === "education"
+                              ? "Pursuing a comprehensive degree in Information Technology, focusing on software development, systems analysis, and emerging technologies."
+                              : item.type === "certification"
+                              ? "Professional certification demonstrating expertise and commitment to industry standards."
+                              : "Professional experience in the field."}
+                          </p>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>

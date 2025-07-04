@@ -24,7 +24,10 @@ const HeroSection = () => {
   };
 
   const downloadResume = () => {
-    window.open("https://limewire.com/d/4xae4#GDBoGOBOvG", "_blank");
+    window.open(
+      "https://github.com/canjdev/canjdev-portfolio/raw/main/christian-portfolio/public/Resume_JUAN_LATEST.pdf",
+      "_blank"
+    );
   };
 
   const handleNameAnimationComplete = () => {
@@ -180,17 +183,6 @@ const TrueFocusNavigation = ({
 
   const words = navigationItems.map((item) => item.label);
   const animationDuration = 0.8;
-  const pauseBetweenAnimations = 2;
-  const blurAmount = 3;
-
-  // Manual mode - no auto-cycling
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     setCurrentIndex((prev) => (prev + 1) % words.length);
-  //   }, (animationDuration + pauseBetweenAnimations) * 1000);
-
-  //   return () => clearInterval(interval);
-  // }, [words.length]);
 
   useEffect(() => {
     if (currentIndex === null || currentIndex === -1) return;
@@ -229,10 +221,13 @@ const TrueFocusNavigation = ({
     >
       {words.map((word, index) => {
         const isActive = index === currentIndex;
+        const blurAmount = 3;
         return (
           <span
             key={index}
-            ref={(el) => (wordRefs.current[index] = el)}
+            ref={(el) => {
+              wordRefs.current[index] = el;
+            }}
             className="relative text-2xl md:text-3xl font-bold cursor-pointer text-white hover:text-cyan-400 transition-colors duration-300"
             style={{
               filter: isActive ? `blur(0px)` : `blur(${blurAmount}px)`,
